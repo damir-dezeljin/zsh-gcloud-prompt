@@ -1,6 +1,8 @@
 setopt prompt_subst
 autoload -Uz add-zsh-hook
 
+export cfg_dir=$([[ -d $CLOUDSDK_CONFIG ]] && echo "$CLOUDSDK_CONFIG" || echo "$HOME")
+
 function() {
     local mtime_fmt
 
@@ -16,14 +18,14 @@ function() {
 
 
 function _set_zsh_gcloud_prompt() {
-    ZSH_GCLOUD_PROJECT=$(cat ~/.gcloud-current-project 2>/dev/null)
+    ZSH_GCLOUD_PROJECT=$(cat $cfg_dir/.gcloud-current-project 2>/dev/null)
     if [ -z "$ZSH_GCLOUD_PROJECT" ]; then
       ZSH_GCLOUD_PROJECT="-"
     fi
 }
 
 function _watch_for_project_change() {
-  ( sh -c 'old_proj=$(cat $HOME/.gcloud-current-project); curr_proj=$(gcloud config get-value project 2>/dev/null); if [ "$old_proj" != "$curr_proj" ]; then echo "$curr_proj" > $HOME/.gcloud-current-project; fi' & ) 1>/dev/null 2>&1
+  ( sh -c 'old_proj=$(cat $cfg_dir/.gcloud-current-project); curr_proj=$(gcloud config get-value project 2>/dev/null); if [ "$old_proj" != "$curr_proj" ]; then echo "$curr_proj" > $cfg_dir/.gcloud-current-project; fi' & ) 1>/dev/null 2>&1
 }
 
 function _is_gcloud_config_updated() {
@@ -32,7 +34,7 @@ function _is_gcloud_config_updated() {
     local gcp_project_mtime
 
     # if one of these files is modified, assume gcloud configuration is updated
-    gcp_project="$HOME/.gcloud-current-project"
+    gcp_project="$cfg_dir/.gcloud-current-project"
 
     zstyle -s ':zsh-gcloud-prompt:' mtime_fmt mtime_fmt
 
