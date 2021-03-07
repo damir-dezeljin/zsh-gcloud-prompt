@@ -13,7 +13,7 @@ user `$HOME` directory.
 
 1. Plugin installation
    ```bash
-   $ git clone git@github.com:ocadaruma/zsh-gcloud-prompt.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-gcloud-prompt
+   $ git clone git@github.com:damir-dezeljin/zsh-gcloud-prompt.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-gcloud-prompt
    ```
 2. Enable the plugin by editing your `~/.zshrc` and add `zsh-gcloud-prompt` to the end of `plugins` line like:
    ```bash
