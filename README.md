@@ -1,26 +1,26 @@
-# zsh-gcloud-prompt
-Show current gcloud config in zsh prompt.
+# zsh-gcloud-prompt for GCP Cloud Shell
+This script is derived from the original [zsh-gcloud-prompt](https://github.com/ocadaruma/zsh-gcloud-prompt).
 
-This script is inspired by [zsh-kubectl-prompt](https://github.com/superbrothers/zsh-kubectl-prompt).
+The above mentioned script didn't work for me in ZSH shell in a GCP Cloud Shell, as the watched files never
+changed. So I scheduled a `gcloud config get-value project` every 5 seconds and updated a local file in the
+user `$HOME` directory.
 
-![capture](https://github.com/ocadaruma/zsh-gcloud-prompt/blob/master/capture.png)
+**NOTE:** I just needed gCloud project name, which I exported to `ZSH_GCLOUD_PROJECT`.
 
 ## Installation
 
-#### 1. Check out the repository.
+#### Oh My ZSH setup
 
-```
-$ git clone https://github.com/ocadaruma/zsh-gcloud-prompt.git /path/to/zsh-gcloud-prompt
-```
-
-#### 2. Configure your zsh
-
-Current gcloud config is stored in `ZSH_GCLOUD_PROMPT`. (in the form of `"${active-account}:${active-project}"`)
-
-For example, add following lines to `~/.zshrc`
-
-```
-autoload -Uz colors; colors
-source /path/to/zsh-gcloud-prompt/gcloud.zsh
-RPROMPT='%{$fg[cyan]%}($ZSH_GCLOUD_PROMPT)%{$reset_color%}'
-```
+1. Plugin installation
+   ```bash
+   $ git clone git@github.com:ocadaruma/zsh-gcloud-prompt.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-gcloud-prompt
+   ```
+2. Enable the plugin by editing your `~/.zshrc` and add `zsh-gcloud-prompt` to the end of `plugins` line like:
+   ```bash
+   plugins=(... zsh-gcloud-prompt)
+   ```
+3. Use the `$ZSH_GCLOUD_PROJECT` in your `PROMPT` configuration. <br>
+   Example in my case I used it in `~/.oh-my-zsh/themes/robbyrussell.zsh-theme` by adding:
+   ```bash
+   PROMPT+=' (%{$fg[yellow]%}$ZSH_GCLOUD_PROJECT%{$reset_color%}) '
+   ```
